@@ -1,6 +1,7 @@
 package com.mooncascade.weathertestapp.rest;
 
 import com.mooncascade.weathertestapp.data.model.BaseJsonModel;
+import com.mooncascade.weathertestapp.data.model.CityForecastBaseModel;
 import com.mooncascade.weathertestapp.data.model.CityTempBaseModel;
 
 import java.util.List;
@@ -16,5 +17,8 @@ public interface ApiService {
 
     @GET("box/city")
     Call<BaseJsonModel<List<CityTempBaseModel>>> getCityWeathers(@Query("bbox") String start);
+
+    @GET("forecast")
+    Call<BaseJsonModel<List<CityForecastBaseModel>>> getCityForecast(@Query("id") long id, @Query("units") String units );
 
 }

@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.mooncascade.weathertestapp.R;
 import com.mooncascade.weathertestapp.data.model.CityTempBaseModel;
+import com.mooncascade.weathertestapp.fragments.ForecastFragment;
 import com.mooncascade.weathertestapp.fragments.MainFragment;
 
 public class MainActivity extends BaseActivity implements MainFragment.OnListFragmentInteractionListener {
@@ -19,7 +20,7 @@ public class MainActivity extends BaseActivity implements MainFragment.OnListFra
         openMainFragment();
 
     }
-    
+
     private void openMainFragment() {
         if(findFragmentByTag(TAG_MAIN_FRAGMENT) == null)
             replaceFragmentWithTag(new MainFragment(), R.id.container,TAG_MAIN_FRAGMENT);
@@ -28,7 +29,10 @@ public class MainActivity extends BaseActivity implements MainFragment.OnListFra
     @Override
     public void onListFragmentInteraction(CityTempBaseModel item) {
 
-        Log.i("item clicked", item.getCityName());
+        Bundle bundle = new Bundle();
+        bundle.putLong(ForecastFragment.LIST_ITEM, item.getId());
+        launchActivityWithBundle(ForecastActivity.class, bundle);
+
     }
 
 }

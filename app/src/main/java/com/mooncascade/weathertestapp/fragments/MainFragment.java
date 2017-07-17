@@ -22,7 +22,6 @@ public class MainFragment extends BaseFragment {
     CitiesWeatherRecyclerViewAdapter adapter;
 
     public interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onListFragmentInteraction(CityTempBaseModel item);
     }
 

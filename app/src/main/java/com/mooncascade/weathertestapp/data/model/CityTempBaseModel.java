@@ -2,6 +2,7 @@ package com.mooncascade.weathertestapp.data.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -14,6 +15,18 @@ public class CityTempBaseModel {
 
     @SerializedName("name")
     String cityName;
+
+    @SerializedName("coord")
+    CoordinatesModel coordinates;
+
+    @SerializedName("main")
+    TemperatureModel temperature;
+
+    @SerializedName("wind")
+    WindModel wind;
+
+    @SerializedName("weather")
+    ArrayList<WeatherModel> weather;
 
     public long getId() {
         return id;
@@ -31,19 +44,6 @@ public class CityTempBaseModel {
     public void setCityName(String cityName) {
         this.cityName = cityName;
     }
-
-
-    @SerializedName("coord")
-    CoordinatesModel coordinates;
-
-    @SerializedName("main")
-    TemperatureModel temperature;
-
-    @SerializedName("wind")
-    WindModel wind;
-
-    @SerializedName("weather")
-    ArrayList<WeatherModel> weather;
 
     public CoordinatesModel getCoordinates() {
         return coordinates;

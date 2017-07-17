@@ -5,6 +5,7 @@ import android.support.compat.BuildConfig;
 import com.mooncascade.weathertestapp.bus.BusProvider;
 import com.mooncascade.weathertestapp.data.model.BaseJsonModel;
 import com.mooncascade.weathertestapp.data.model.BaseModel;
+import com.mooncascade.weathertestapp.data.model.CityForecastBaseModel;
 import com.mooncascade.weathertestapp.data.model.CityTempBaseModel;
 
 import java.io.IOException;
@@ -97,6 +98,33 @@ public class RestClient {
                 dispatchFailureMessage("Unexpected error...");
             }
         });
+    }
+
+    public void getCityForecast(long cityId) {
+
+        Call<BaseJsonModel<List<CityForecastBaseModel>>> call = getApiService().getCityForecast(cityId, "metric");
+
+        call.enqueue(new Callback<BaseJsonModel<List<CityForecastBaseModel>>>() {
+            @Override
+            public void onResponse(Call<BaseJsonModel<List<CityForecastBaseModel>>> call, Response<BaseJsonModel<List<CityForecastBaseModel>>> response) {
+                if (response.isSuccessful()) {
+                    BusProvider.getInstance().post(response.body().getData());
+
+                } else {
+                    try {
+                        dispatchFailureMessage(response.errorBody().string());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BaseJsonModel<List<CityForecastBaseModel>>> call, Throwable t) {
+                dispatchFailureMessage("Unexpected error...");
+            }
+        });
+
     }
 
     private void dispatchFailureMessage(String string) {
