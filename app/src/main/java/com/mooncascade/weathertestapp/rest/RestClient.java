@@ -1,11 +1,7 @@
 package com.mooncascade.weathertestapp.rest;
 
-import android.content.Context;
 import android.support.compat.BuildConfig;
-import android.util.Log;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.mooncascade.weathertestapp.bus.BusProvider;
 import com.mooncascade.weathertestapp.data.model.BaseJsonModel;
 import com.mooncascade.weathertestapp.data.model.BaseModel;
@@ -29,7 +25,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class RestClient {
 
-    private static final String BASE_URL = "https://api.openweathermap.org/data/2.5/";
+    private static final String BASE_URL = "http://api.openweathermap.org/data/2.5/";
     private static RestClient ourInstance = new RestClient();
     private static ApiService apiService;
     private static String appId = "7131489711d7591432be8f2172cf6ca3";
@@ -48,7 +44,6 @@ public class RestClient {
                 interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
                 builder.addInterceptor(interceptor);
             }
-
 
             builder.addNetworkInterceptor(chain -> {
                 Request request = chain.request();
@@ -85,7 +80,7 @@ public class RestClient {
             public void onResponse(Call<BaseJsonModel<List<CityTempBaseModel>>> call, Response<BaseJsonModel<List<CityTempBaseModel>>> response) {
 
                 if (response.isSuccessful()) {
-                    //BusProvider.getInstance().post(response.body().getData());
+                    BusProvider.getInstance().post(response.body().getData());
 
                 } else {
                     try {
@@ -99,17 +94,14 @@ public class RestClient {
 
             @Override
             public void onFailure(Call<BaseJsonModel<List<CityTempBaseModel>>> call, Throwable t) {
-
+                dispatchFailureMessage("Unexpected error...");
             }
         });
     }
 
     private void dispatchFailureMessage(String string) {
-        Gson gson = new GsonBuilder().create();
-        BaseModel mError;
 
-        mError = gson.fromJson(string, BaseModel.class);
-        Log.i("error", mError.getErrorMessage());
+        BaseModel mError = new BaseModel(200, string);
 
         dispatchFailureMessage(mError);
     }

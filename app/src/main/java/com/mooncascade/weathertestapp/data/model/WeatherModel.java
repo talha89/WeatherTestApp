@@ -19,4 +19,35 @@ public class WeatherModel {
     @SerializedName("icon")
     String icon;
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getMainWeather() {
+        return mainWeather;
+    }
+
+    public void setMainWeather(String mainWeather) {
+        this.mainWeather = mainWeather;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
 }

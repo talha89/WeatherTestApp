@@ -10,23 +10,23 @@ public class BaseModel {
     public BaseModel() {
     }
 
-    public BaseModel(boolean success, String errorMessage) {
-        this.success = success;
+    public BaseModel(int status, String errorMessage) {
+        this.status = status;
         this.errorMessage = errorMessage;
     }
 
     @SerializedName("cod")
-    private boolean success;
+    private int status;
 
     @SerializedName("message")
     private String errorMessage;
 
-    public boolean isSuccess() {
-        return success;
+    public int getStatus() {
+        return status;
     }
 
-    public void setSuccess(boolean success) {
-        this.success = success;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public String getErrorMessage() {

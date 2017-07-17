@@ -13,4 +13,19 @@ public class WindModel {
     @SerializedName("deg")
     double deg;
 
+    public double getDt() {
+        return dt;
+    }
+
+    public void setDt(double dt) {
+        this.dt = dt;
+    }
+
+    public double getDeg() {
+        return deg;
+    }
+
+    public void setDeg(double deg) {
+        this.deg = deg;
+    }
 }
