@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/list_item_margin">
+
+    <TextView
+        android:id="@+id/forecastTimeTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="18:00"
+        android:layout_alignParentLeft="true"
+        android:textColor="@android:color/holo_blue_light"
+        android:textAppearance="?attr/textAppearanceListItem" />
+
+
+    <ImageView
+        android:id="@+id/cityWeatherIv"
+        android:layout_width="@dimen/list_item_image_size"
+        android:layout_height="@dimen/list_item_image_size"
+        android:layout_centerHorizontal="true"
+        android:layout_toLeftOf="@+id/cityTempTv"
+        android:src="@android:drawable/ic_input_add" />
+
+    <TextView
+        android:id="@+id/cityTempTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="23.08"
+        android:textSize="@dimen/list_item_title_size"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        android:textAppearance="?attr/textAppearanceListItem" />
+
+    <TextView
+        android:id="@+id/foreCastWindTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Temp: 23 degrees"
+        android:layout_alignParentRight="true"
+        android:textAppearance="?attr/textAppearanceListItem" />
+
+
+</RelativeLayout>

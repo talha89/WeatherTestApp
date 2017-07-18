@@ -18,6 +18,9 @@ public class CityForecastBaseModel {
     @SerializedName("weather")
     ArrayList<WeatherModel> weather;
 
+    @SerializedName("wind")
+    WindModel wind;
+
     @SerializedName("dt_txt")
     String dateString;
 
@@ -52,5 +55,13 @@ public class CityForecastBaseModel {
 
     public void setDateString(String dateString) {
         this.dateString = dateString;
+    }
+
+    public WindModel getWind() {
+        return wind;
+    }
+
+    public void setWind(WindModel wind) {
+        this.wind = wind;
     }
 }

@@ -4,6 +4,9 @@ package com.mooncascade.weathertestapp.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -11,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mooncascade.weathertestapp.R;
+import com.mooncascade.weathertestapp.adapters.ForecastRecyclerViewAdapter;
 import com.mooncascade.weathertestapp.data.model.BaseModel;
 import com.mooncascade.weathertestapp.data.model.CityForecastBaseModel;
 import com.mooncascade.weathertestapp.data.model.CityTempBaseModel;
@@ -27,6 +31,9 @@ public class ForecastFragment extends BaseFragment {
     public static final String LIST_ITEM = "listItem";
 
     private Long cityId;
+
+    RecyclerView recyclerView;
+    ForecastRecyclerViewAdapter adapter;
 
     public static ForecastFragment newInstance(Long id) {
         ForecastFragment fragment = new ForecastFragment();
@@ -53,13 +60,23 @@ public class ForecastFragment extends BaseFragment {
 
     @Override
     public void initViews(View view) {
+        recyclerView = (RecyclerView) view;
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), layoutManager.getOrientation());
+        recyclerView.addItemDecoration(dividerItemDecoration);
+
+        recyclerView.setLayoutManager(layoutManager);
+        adapter = new ForecastRecyclerViewAdapter(new ArrayList<>(), R.layout.forecast_section_header);
+        recyclerView.setAdapter(adapter);
 
         RestClient.getInstance().getCityForecast(cityId);
     }
 
     @Subscribe
     public void onForecastReceived(ArrayList<CityForecastBaseModel> data) {
-        displayToast("Forecast received" + data.get(0).getDateString());
+        adapter.updateData(data);
+        adapter.notifyDataSetChanged();
     }
 
     @Subscribe

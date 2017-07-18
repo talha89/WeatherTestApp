@@ -8,17 +8,17 @@ import com.google.gson.annotations.SerializedName;
 public class WindModel {
 
     @SerializedName("speed")
-    double dt;
+    double speed;
 
     @SerializedName("deg")
     double deg;
 
-    public double getDt() {
-        return dt;
+    public double getSpeed() {
+        return speed;
     }
 
-    public void setDt(double dt) {
-        this.dt = dt;
+    public void setSpeed(double speed) {
+        this.speed = speed;
     }
 
     public double getDeg() {
