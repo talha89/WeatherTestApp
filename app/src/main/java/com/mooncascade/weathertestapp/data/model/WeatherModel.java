@@ -13,7 +13,7 @@ public class WeatherModel {
     @SerializedName("main")
     String mainWeather;
 
-    @SerializedName("dt")
+    @SerializedName("description")
     String description;
 
     @SerializedName("icon")

@@ -3,6 +3,7 @@ package com.mooncascade.weathertestapp.adapters;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +16,10 @@ import com.mooncascade.weathertestapp.data.model.CityForecastBaseModel;
 import com.mooncascade.weathertestapp.data.model.WeatherModel;
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 
@@ -37,7 +41,7 @@ public class ForecastRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
         mValues = items;
         mHeaderRes = headerLayout;
 
-        sectionsIndexer = new LinkedHashMap<Integer, String>();
+        sectionsIndexer = new LinkedHashMap<>();
         calculateSectionHeaders();
     }
 
@@ -57,7 +61,6 @@ public class ForecastRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                     .inflate(R.layout.forecast_list_item, parent, false);
             return new ViewHolder(view);
         }
-
     }
 
     @Override
@@ -71,6 +74,8 @@ public class ForecastRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
             ViewHolder sectionItemHolder = (ViewHolder) holder;
             CityForecastBaseModel thisItem = mValues.get(getSectionForPosition(position));
 
+            Context cxt = sectionItemHolder.cityWeatherIv.getContext();
+
             sectionItemHolder.mItem = thisItem;
 
             String dateString = thisItem.getDateString();
@@ -78,20 +83,19 @@ public class ForecastRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                 sectionItemHolder.forecastTimeTv.setText(dateString.split(" ")[1]);
             }
 
-            sectionItemHolder.cityTempTv.setText(String.format(Locale.getDefault(), "%.2f", thisItem.getTemperature().getTemp()));
-            sectionItemHolder.foreCastWindTv.setText(String.format(Locale.getDefault(), "%.2f", thisItem.getWind().getSpeed()));
+            sectionItemHolder.cityTempTv.setText(String.format(cxt.getString(R.string.weather_temp), thisItem.getTemperature().getTemp()));
+            sectionItemHolder.foreCastWindTv.setText(String.format(cxt.getString(R.string.weather_speed), thisItem.getWind().getSpeed()));
 
             ArrayList<WeatherModel> weatherModels = thisItem.getWeather();
             if (weatherModels != null && weatherModels.size() > 0) {
                 // holder.cityWeatherTv.setText(weatherModels.get(0).getMainWeather());
 
-                Context cxt = sectionItemHolder.cityWeatherIv.getContext();
-
                 String url = String.format(cxt.getString(R.string.weather_icon_url),
-                        thisItem.getWeather().get(0).getIcon() + ".png");
+                        weatherModels.get(0).getIcon() + ".png");
 
                 Picasso.with(cxt).load(url).into(sectionItemHolder.cityWeatherIv);
 
+                sectionItemHolder.foreCastWeatherTv.setText(weatherModels.get(0).getDescription());
             }
         }
 
@@ -108,6 +112,7 @@ public class ForecastRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
         public final ImageView cityWeatherIv;
         public final TextView cityTempTv;
         public final TextView foreCastWindTv;
+        public final TextView foreCastWeatherTv;
 
         public CityForecastBaseModel mItem;
 
@@ -118,6 +123,7 @@ public class ForecastRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
             cityTempTv = view.findViewById(R.id.cityTempTv);
             foreCastWindTv = view.findViewById(R.id.foreCastWindTv);
             cityWeatherIv = view.findViewById(R.id.cityWeatherIv);
+            foreCastWeatherTv = view.findViewById(R.id.foreCastWeatherTv);
         }
     }
 
@@ -171,6 +177,20 @@ public class ForecastRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
             String dateString = mValues.get(i).getDateString();
             if (!TextUtils.isEmpty(dateString)) {
                 group = dateString.split(" ")[0];
+
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                try {
+                    Date date = format.parse(group);
+
+                    if (isToday(date))
+                        group = "Today";
+                    else if(isTomorrow(date))
+                        group = "Tomorrow";
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
             }
 
             if (!previous.equals(group)) {
@@ -182,6 +202,14 @@ public class ForecastRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                 count++;
             }
         }
+    }
+
+    public static boolean isToday(Date d) {
+        return DateUtils.isToday(d.getTime());
+    }
+
+    public static boolean isTomorrow(Date d) {
+        return DateUtils.isToday(d.getTime() - DateUtils.DAY_IN_MILLIS);
     }
 
 }

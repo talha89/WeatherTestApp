@@ -7,6 +7,8 @@
     <dimen name="list_item_margin">8dp</dimen>
     <dimen name="list_item_title_size">20sp</dimen>
     <dimen name="list_item_image_size">50dp</dimen>
+    <dimen name="list_item_drawable_padding">4dp</dimen>
+    <dimen name="list_item_height">70dp</dimen>
 
 
 </resources>
