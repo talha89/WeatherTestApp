@@ -109,7 +109,7 @@ public class RestClient {
             public void onResponse(Call<BaseJsonModel<List<CityForecastBaseModel>>> call, Response<BaseJsonModel<List<CityForecastBaseModel>>> response) {
                 if (response.isSuccessful()) {
                     BusProvider.getInstance().post(response.body().getData());
-
+                    BusProvider.getInstance().post(response.body().getCity());
                 } else {
                     try {
                         dispatchFailureMessage(response.errorBody().string());

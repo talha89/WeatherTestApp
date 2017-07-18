@@ -18,4 +18,14 @@ public class BaseJsonModel<T> extends BaseModel{
         this.data = data;
     }
 
+    @SerializedName("city")
+    CityModel city;
+
+    public CityModel getCity() {
+        return city;
+    }
+
+    public void setCity(CityModel city) {
+        this.city = city;
+    }
 }

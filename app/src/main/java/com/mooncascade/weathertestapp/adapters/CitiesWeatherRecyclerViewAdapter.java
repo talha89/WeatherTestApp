@@ -39,15 +39,15 @@ public class CitiesWeatherRecyclerViewAdapter extends RecyclerView.Adapter<Citie
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.cityTitleTv.setText(mValues.get(position).getCityName());
-        holder.cityTempTv.setText(Double.toString(mValues.get(position).getTemperature().getTemp()));
 
+        Context cxt = holder.cityWeatherIv.getContext();
+
+        holder.cityTitleTv.setText(mValues.get(position).getCityName());
+        holder.cityTempTv.setText(String.format(cxt.getString(R.string.weather_temp), mValues.get(position).getTemperature().getTemp()));
 
         ArrayList<WeatherModel> weatherModels = mValues.get(position).getWeather();
         if(weatherModels != null && weatherModels.size() > 0){
             holder.cityWeatherTv.setText(weatherModels.get(0).getMainWeather());
-
-            Context cxt = holder.cityWeatherIv.getContext();
 
             String url = String.format(cxt.getString(R.string.weather_icon_url),
                     mValues.get(position).getWeather().get(0).getIcon() + ".png");

@@ -17,6 +17,7 @@ import com.mooncascade.weathertestapp.R;
 import com.mooncascade.weathertestapp.adapters.ForecastRecyclerViewAdapter;
 import com.mooncascade.weathertestapp.data.model.BaseModel;
 import com.mooncascade.weathertestapp.data.model.CityForecastBaseModel;
+import com.mooncascade.weathertestapp.data.model.CityModel;
 import com.mooncascade.weathertestapp.data.model.CityTempBaseModel;
 import com.mooncascade.weathertestapp.rest.RestClient;
 import com.squareup.otto.Subscribe;
@@ -47,7 +48,6 @@ public class ForecastFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-        getActivity().setTitle("Contact Detail");
         if (getArguments() != null) {
             cityId = getArguments().getLong(LIST_ITEM);
         }
@@ -77,6 +77,13 @@ public class ForecastFragment extends BaseFragment {
     public void onForecastReceived(ArrayList<CityForecastBaseModel> data) {
         adapter.updateData(data);
         adapter.notifyDataSetChanged();
+    }
+
+    @Subscribe
+    public void onCityInfoReceived(CityModel city) {
+        if(getActivity()!=null){
+            getActivity().setTitle(city.getName());
+        }
     }
 
     @Subscribe
