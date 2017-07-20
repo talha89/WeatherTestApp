@@ -36,6 +36,8 @@ public class ForecastFragment extends BaseFragment {
     RecyclerView recyclerView;
     ForecastRecyclerViewAdapter adapter;
 
+    private View mProgressView;
+
     public static ForecastFragment newInstance(Long id) {
         ForecastFragment fragment = new ForecastFragment();
         Bundle args = new Bundle();
@@ -60,7 +62,9 @@ public class ForecastFragment extends BaseFragment {
 
     @Override
     public void initViews(View view) {
-        recyclerView = (RecyclerView) view;
+        recyclerView = view.findViewById(R.id.list);
+
+        mProgressView = view.findViewById(R.id.login_progress);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), layoutManager.getOrientation());
@@ -70,11 +74,17 @@ public class ForecastFragment extends BaseFragment {
         adapter = new ForecastRecyclerViewAdapter(new ArrayList<>(), R.layout.forecast_section_header);
         recyclerView.setAdapter(adapter);
 
-        RestClient.getInstance().getCityForecast(cityId);
+        dispatchCall(cityId);
+    }
+
+    void dispatchCall(Long id) {
+        showProgress(true, mProgressView, recyclerView);
+        RestClient.getInstance(context).getCityForecast(id);
     }
 
     @Subscribe
     public void onForecastReceived(ArrayList<CityForecastBaseModel> data) {
+        showProgress(false, mProgressView, recyclerView);
         adapter.updateData(data);
         adapter.notifyDataSetChanged();
     }
@@ -88,6 +98,7 @@ public class ForecastFragment extends BaseFragment {
 
     @Subscribe
     public void onRestError(BaseModel error) {
+        showProgress(false, mProgressView, recyclerView);
         displayToast(error.getErrorMessage());
     }
 

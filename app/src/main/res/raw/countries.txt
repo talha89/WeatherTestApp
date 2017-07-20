@@ -1,5 +1,3 @@
-country        longmin   latmin  longmax   latmax
-
  Antigua_and_   -62.417   16.817  -61.650   17.750 
  United_Arab_    45.000   22.167   59.250   26.133 
  Afghanistan     60.433   29.150   75.033   38.484 

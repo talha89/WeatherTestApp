@@ -1,17 +1,25 @@
 package com.mooncascade.weathertestapp.rest;
 
+import android.content.Context;
+import android.os.Environment;
 import android.support.compat.BuildConfig;
 
+import com.mooncascade.weathertestapp.Utility;
 import com.mooncascade.weathertestapp.bus.BusProvider;
 import com.mooncascade.weathertestapp.data.model.BaseJsonModel;
 import com.mooncascade.weathertestapp.data.model.BaseModel;
 import com.mooncascade.weathertestapp.data.model.CityForecastBaseModel;
 import com.mooncascade.weathertestapp.data.model.CityTempBaseModel;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import okhttp3.Cache;
+import okhttp3.CacheControl;
 import okhttp3.HttpUrl;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -34,17 +42,18 @@ public class RestClient {
     private RestClient() {
     }
 
-    public static RestClient getInstance() {
+    public static RestClient getInstance(Context cxt) {
 
         if (apiService == null) {
 
             OkHttpClient.Builder builder = new OkHttpClient.Builder();
 
-            if (BuildConfig.DEBUG) {
-                HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-                interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-                builder.addInterceptor(interceptor);
-            }
+            //  if (BuildConfig.DEBUG) {
+            HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+            builder.addInterceptor(interceptor);
+            //   }
+
 
             builder.addNetworkInterceptor(chain -> {
                 Request request = chain.request();
@@ -52,6 +61,12 @@ public class RestClient {
                 request = request.newBuilder().url(url).build();
                 return chain.proceed(request);
             });
+
+            builder.addInterceptor(new OfflineResponseCacheInterceptor(cxt))
+                    // Set the cache location and size (10 MB)
+                    .cache(new Cache(new File(cxt.getExternalCacheDir(), "http-cache"), 10 * 1024 * 1024));
+
+
 
             OkHttpClient client = builder.build();
 
@@ -139,5 +154,34 @@ public class RestClient {
         BusProvider.getInstance().post(mError);
     }
 
+    private static class OfflineResponseCacheInterceptor implements Interceptor {
+        Context context;
+
+        public OfflineResponseCacheInterceptor(Context cxt) {
+            context = cxt;
+        }
+
+        @Override
+        public okhttp3.Response intercept(Chain chain) throws IOException {
+            Request request = chain.request();
+            if (!Utility.isNetworkAvailable(context)) {
+                request = request.newBuilder()
+                        .removeHeader("Pragma")
+                        .removeHeader("Cache-Control")
+                        .header("Cache-Control",
+                                "public, only-if-cached, max-stale=" + 2419200)
+                        .build();
+
+/*                CacheControl cacheControl = new CacheControl.Builder()
+                        .maxStale(7, TimeUnit.DAYS)
+                        .build();
+
+                request = request.newBuilder()
+                        .cacheControl(cacheControl)
+                        .build();*/
+            }
+            return chain.proceed(request);
+        }
+    }
 
 }

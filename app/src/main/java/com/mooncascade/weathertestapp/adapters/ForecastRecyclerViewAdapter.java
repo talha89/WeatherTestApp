@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mooncascade.weathertestapp.R;
+import com.mooncascade.weathertestapp.Utility;
+import com.mooncascade.weathertestapp.Words;
 import com.mooncascade.weathertestapp.data.model.CityForecastBaseModel;
 import com.mooncascade.weathertestapp.data.model.WeatherModel;
 import com.squareup.picasso.Picasso;
@@ -83,7 +85,13 @@ public class ForecastRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                 sectionItemHolder.forecastTimeTv.setText(dateString.split(" ")[1]);
             }
 
-            sectionItemHolder.cityTempTv.setText(String.format(cxt.getString(R.string.weather_temp), thisItem.getTemperature().getTemp()));
+            if (Utility.isShowAsTextEnabled(cxt)) {
+                sectionItemHolder.cityTempTv.setText(String.format(cxt.getString(R.string.forecast_temp_as_text), Words.EnglishNumberToWords((int) thisItem.getTemperature().getTemp())));
+            } else {
+                sectionItemHolder.cityTempTv.setText(String.format(cxt.getString(R.string.weather_temp), thisItem.getTemperature().getTemp()));
+            }
+
+            //sectionItemHolder.cityTempTv.setText(String.format(cxt.getString(R.string.weather_temp), thisItem.getTemperature().getTemp()));
             sectionItemHolder.foreCastWindTv.setText(String.format(cxt.getString(R.string.weather_speed), thisItem.getWind().getSpeed()));
 
             ArrayList<WeatherModel> weatherModels = thisItem.getWeather();
@@ -184,7 +192,7 @@ public class ForecastRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
 
                     if (isToday(date))
                         group = "Today";
-                    else if(isTomorrow(date))
+                    else if (isTomorrow(date))
                         group = "Tomorrow";
 
                 } catch (ParseException e) {

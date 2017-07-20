@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.mooncascade.weathertestapp.R;
+import com.mooncascade.weathertestapp.Utility;
+import com.mooncascade.weathertestapp.Words;
 import com.mooncascade.weathertestapp.data.model.CityTempBaseModel;
 import com.mooncascade.weathertestapp.data.model.WeatherModel;
 import com.mooncascade.weathertestapp.fragments.MainFragment.OnListFragmentInteractionListener;
@@ -43,7 +45,12 @@ public class CitiesWeatherRecyclerViewAdapter extends RecyclerView.Adapter<Citie
         Context cxt = holder.cityWeatherIv.getContext();
 
         holder.cityTitleTv.setText(mValues.get(position).getCityName());
-        holder.cityTempTv.setText(String.format(cxt.getString(R.string.weather_temp), mValues.get(position).getTemperature().getTemp()));
+        if(Utility.isShowAsTextEnabled(cxt)){
+            holder.cityTempTv.setText(String.format(cxt.getString(R.string.weather_temp_as_text), Words.EnglishNumberToWords((int) mValues.get(position).getTemperature().getTemp())));
+        }
+        else{
+            holder.cityTempTv.setText(String.format(cxt.getString(R.string.weather_temp), mValues.get(position).getTemperature().getTemp()));
+        }
 
         ArrayList<WeatherModel> weatherModels = mValues.get(position).getWeather();
         if(weatherModels != null && weatherModels.size() > 0){

@@ -1,9 +1,16 @@
 <resources>
-    <string name="app_name">WeatherTestApp</string>
+    <string name="app_name">Weather App</string>
+
+    <string name="settings_screen_name">Settings</string>
+    <string name="setting_key1">key1</string>
 
     <string name="weather_icon_url">http://openweathermap.org/img/w/%s</string>
 
     <string name="weather_speed">%.1f m/s</string>
     <string name="weather_temp">%.1f \u00B0C</string>
+    <string name="weather_temp_as_text">%s degrees</string>
+    <string name="forecast_temp_as_text">%s\ndegrees</string>
+    <string name="settings">Settings</string>
+
 
 </resources>
