@@ -2,6 +2,7 @@ package com.mooncascade.weathertestapp.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -15,6 +16,14 @@ import com.mooncascade.weathertestapp.bus.BusProvider;
  */
 public class BaseActivity extends AppCompatActivity {
 
+
+    @Override
+    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
+        super.onCreate(savedInstanceState, persistentState);
+
+        if(getSupportActionBar() != null)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
 
     public void replaceFragment(Fragment fragment, int container) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();

@@ -54,19 +54,17 @@ public class RestClient {
             builder.addInterceptor(interceptor);
             //   }
 
-
-            builder.addNetworkInterceptor(chain -> {
+            // This can be problematic in case of server redirects
+            builder.addInterceptor(chain -> {
                 Request request = chain.request();
                 HttpUrl url = request.url().newBuilder().addQueryParameter("APPID", appId).build();
                 request = request.newBuilder().url(url).build();
                 return chain.proceed(request);
             });
 
-            builder.addInterceptor(new OfflineResponseCacheInterceptor(cxt))
+            builder.addInterceptor(new OfflineResponseCacheInterceptor())
                     // Set the cache location and size (10 MB)
                     .cache(new Cache(new File(cxt.getExternalCacheDir(), "http-cache"), 10 * 1024 * 1024));
-
-
 
             OkHttpClient client = builder.build();
 
@@ -155,32 +153,18 @@ public class RestClient {
     }
 
     private static class OfflineResponseCacheInterceptor implements Interceptor {
-        Context context;
-
-        public OfflineResponseCacheInterceptor(Context cxt) {
-            context = cxt;
-        }
 
         @Override
         public okhttp3.Response intercept(Chain chain) throws IOException {
-            Request request = chain.request();
-            if (!Utility.isNetworkAvailable(context)) {
-                request = request.newBuilder()
-                        .removeHeader("Pragma")
-                        .removeHeader("Cache-Control")
-                        .header("Cache-Control",
-                                "public, only-if-cached, max-stale=" + 2419200)
+            try {
+                return chain.proceed(chain.request());
+            } catch (Exception e) {
+                Request offlineRequest = chain.request().newBuilder()
+                        .header("Cache-Control", "public, only-if-cached," +
+                                "max-stale=" + 60 * 60 * 24)
                         .build();
-
-/*                CacheControl cacheControl = new CacheControl.Builder()
-                        .maxStale(7, TimeUnit.DAYS)
-                        .build();
-
-                request = request.newBuilder()
-                        .cacheControl(cacheControl)
-                        .build();*/
+                return chain.proceed(offlineRequest);
             }
-            return chain.proceed(request);
         }
     }
 
