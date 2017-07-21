@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.mooncascade.weathertestapp.bus.BusProvider;
@@ -18,7 +19,7 @@ import com.mooncascade.weathertestapp.bus.BusProvider;
 /**
  * Created by Talha Mir on 16-Jul-17.
  */
-public abstract class BaseFragment extends Fragment{
+public abstract class BaseFragment extends Fragment {
 
     Context context;
 
@@ -91,6 +92,11 @@ public abstract class BaseFragment extends Fragment{
             progressView.setVisibility(show ? View.VISIBLE : View.GONE);
             mainView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
+    }
+
+    void hideKeyboard(View view) {
+        InputMethodManager in = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        in.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
     }
 
 }

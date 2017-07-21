@@ -20,6 +20,7 @@ import com.mooncascade.weathertestapp.R;
 import com.mooncascade.weathertestapp.Utility;
 import com.mooncascade.weathertestapp.Words;
 import com.mooncascade.weathertestapp.adapters.CitiesWeatherRecyclerViewAdapter;
+import com.mooncascade.weathertestapp.common.ClearableAutoCompleteTextView;
 import com.mooncascade.weathertestapp.data.model.BaseModel;
 import com.mooncascade.weathertestapp.data.model.CityTempBaseModel;
 import com.mooncascade.weathertestapp.rest.RestClient;
@@ -34,7 +35,7 @@ public class MainFragment extends BaseFragment {
     RecyclerView recyclerView;
     CitiesWeatherRecyclerViewAdapter adapter;
     Map countriesBoundingMap;
-    AutoCompleteTextView autoCompleteTextView;
+    ClearableAutoCompleteTextView autoCompleteTextView;
     boolean isShowAsTextEnabled = false;
     private View mProgressView;
 
@@ -88,6 +89,7 @@ public class MainFragment extends BaseFragment {
                 String query = countriesBoundingMap.get(autoCompleteTextView.getText().toString()) + ",10";
                 Log.i("query", query);
                 dispatchCall(query);
+                hideKeyboard(view);
             }
         });
 

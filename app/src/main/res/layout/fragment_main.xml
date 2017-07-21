@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <AutoCompleteTextView
+    <com.mooncascade.weathertestapp.common.ClearableAutoCompleteTextView
         android:id="@+id/autoCompleteTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,7 +14,7 @@
         android:drawableLeft="@android:drawable/ic_menu_search"
         android:drawablePadding="@dimen/list_item_drawable_padding"
         android:gravity="left|center_vertical"
-        android:hint="Search Country"
+        android:hint="@string/select_country"
         android:imeOptions="actionSearch"
         android:inputType="textAutoComplete|textAutoCorrect"
         android:lines="1" />
