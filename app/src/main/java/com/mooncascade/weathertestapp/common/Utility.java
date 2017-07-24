@@ -1,4 +1,4 @@
-package com.mooncascade.weathertestapp;
+package com.mooncascade.weathertestapp.common;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -6,6 +6,8 @@ import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
+
+import com.mooncascade.weathertestapp.R;
 
 import java.io.BufferedReader;
 import java.io.IOException;

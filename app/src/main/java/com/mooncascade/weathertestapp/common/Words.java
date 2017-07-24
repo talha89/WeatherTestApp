@@ -1,4 +1,4 @@
-package com.mooncascade.weathertestapp;
+package com.mooncascade.weathertestapp.common;
 
 /**
  * Created by Talha Mir on 20-Jul-17.

@@ -12,8 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mooncascade.weathertestapp.R;
-import com.mooncascade.weathertestapp.Utility;
-import com.mooncascade.weathertestapp.Words;
+import com.mooncascade.weathertestapp.common.Utility;
+import com.mooncascade.weathertestapp.common.Words;
 import com.mooncascade.weathertestapp.data.model.CityForecastBaseModel;
 import com.mooncascade.weathertestapp.data.model.WeatherModel;
 import com.squareup.picasso.Picasso;
@@ -82,7 +82,7 @@ public class ForecastRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
 
             String dateString = thisItem.getDateString();
             if (!TextUtils.isEmpty(dateString)) {
-                sectionItemHolder.forecastTimeTv.setText(dateString.split(" ")[1]);
+                sectionItemHolder.forecastTimeTv.setText(getTime(dateString));
             }
 
             if (Utility.isShowAsTextEnabled(cxt)) {
@@ -210,6 +210,24 @@ public class ForecastRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                 count++;
             }
         }
+    }
+
+    private String getTime(String timeString) {
+
+        String displayValue = "";
+
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        Date date = null;
+        try {
+            date = dateFormatter.parse(timeString);
+            // Get time from date
+            SimpleDateFormat timeFormatter = new SimpleDateFormat("h:mm a", Locale.getDefault());
+            displayValue = timeFormatter.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return displayValue;
     }
 
     public static boolean isToday(Date d) {

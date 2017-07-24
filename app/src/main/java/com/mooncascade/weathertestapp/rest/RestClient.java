@@ -1,10 +1,7 @@
 package com.mooncascade.weathertestapp.rest;
 
 import android.content.Context;
-import android.os.Environment;
-import android.support.compat.BuildConfig;
 
-import com.mooncascade.weathertestapp.Utility;
 import com.mooncascade.weathertestapp.bus.BusProvider;
 import com.mooncascade.weathertestapp.data.model.BaseJsonModel;
 import com.mooncascade.weathertestapp.data.model.BaseModel;
@@ -14,10 +11,8 @@ import com.mooncascade.weathertestapp.data.model.CityTempBaseModel;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
-import okhttp3.CacheControl;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;

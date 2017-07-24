@@ -20,6 +20,8 @@ import com.mooncascade.weathertestapp.data.model.CityForecastBaseModel;
 import com.mooncascade.weathertestapp.data.model.CityModel;
 import com.mooncascade.weathertestapp.data.model.CityTempBaseModel;
 import com.mooncascade.weathertestapp.rest.RestClient;
+import com.mooncascade.weathertestapp.views.ForecastView;
+import com.mooncascade.weathertestapp.views.ForecastViewImpl;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
@@ -33,10 +35,8 @@ public class ForecastFragment extends BaseFragment {
 
     private Long cityId;
 
-    RecyclerView recyclerView;
-    ForecastRecyclerViewAdapter adapter;
-
-    private View mProgressView;
+    private ForecastView mViewMVC;
+    ArrayList<CityForecastBaseModel> data;
 
     public static ForecastFragment newInstance(Long id) {
         ForecastFragment fragment = new ForecastFragment();
@@ -55,50 +55,46 @@ public class ForecastFragment extends BaseFragment {
         }
     }
 
+    @Nullable
     @Override
-    public int getLayoutId() {
-        return R.layout.fragment_forecast;
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mViewMVC = new ForecastViewImpl(inflater, container);
+
+        return mViewMVC.getRootView();
     }
 
     @Override
-    public void initViews(View view) {
-        recyclerView = view.findViewById(R.id.list);
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-        mProgressView = view.findViewById(R.id.login_progress);
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), layoutManager.getOrientation());
-        recyclerView.addItemDecoration(dividerItemDecoration);
-
-        recyclerView.setLayoutManager(layoutManager);
-        adapter = new ForecastRecyclerViewAdapter(new ArrayList<>(), R.layout.forecast_section_header);
-        recyclerView.setAdapter(adapter);
-
-        dispatchCall(cityId);
+        if (savedInstanceState == null)
+            dispatchCall(cityId);
+        else
+            mViewMVC.updateList(data);
     }
 
     void dispatchCall(Long id) {
-        showProgress(true, mProgressView, recyclerView);
+        mViewMVC.showProgress(true);
         RestClient.getInstance(context).getCityForecast(id);
     }
 
     @Subscribe
     public void onForecastReceived(ArrayList<CityForecastBaseModel> data) {
-        showProgress(false, mProgressView, recyclerView);
-        adapter.updateData(data);
-        adapter.notifyDataSetChanged();
+        this.data = data;
+        mViewMVC.showProgress(false);
+        mViewMVC.updateList(data);
     }
 
     @Subscribe
     public void onCityInfoReceived(CityModel city) {
-        if(getActivity()!=null){
+        if (getActivity() != null) {
             getActivity().setTitle(city.getName());
         }
     }
 
     @Subscribe
     public void onRestError(BaseModel error) {
-        showProgress(false, mProgressView, recyclerView);
+        mViewMVC.showProgress(false);
         displayToast(error.getErrorMessage());
     }
 

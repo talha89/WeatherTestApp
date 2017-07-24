@@ -8,11 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.mooncascade.weathertestapp.R;
-import com.mooncascade.weathertestapp.Utility;
-import com.mooncascade.weathertestapp.Words;
+import com.mooncascade.weathertestapp.common.Utility;
+import com.mooncascade.weathertestapp.common.Words;
 import com.mooncascade.weathertestapp.data.model.CityTempBaseModel;
 import com.mooncascade.weathertestapp.data.model.WeatherModel;
 import com.mooncascade.weathertestapp.fragments.MainFragment.OnListFragmentInteractionListener;
+import com.mooncascade.weathertestapp.views.MainView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -20,9 +21,9 @@ import java.util.ArrayList;
 public class CitiesWeatherRecyclerViewAdapter extends RecyclerView.Adapter<CitiesWeatherRecyclerViewAdapter.ViewHolder> {
 
     private ArrayList<CityTempBaseModel> mValues;
-    private final OnListFragmentInteractionListener mListener;
+    private final MainView.MainViewInteractionListener mListener;
 
-    public CitiesWeatherRecyclerViewAdapter(ArrayList<CityTempBaseModel> items, OnListFragmentInteractionListener listener) {
+    public CitiesWeatherRecyclerViewAdapter(ArrayList<CityTempBaseModel> items, MainView.MainViewInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -63,12 +64,9 @@ public class CitiesWeatherRecyclerViewAdapter extends RecyclerView.Adapter<Citie
 
         }
 
-
         holder.mView.setOnClickListener(v -> {
-            if (null != mListener) {
-                // Notify the active callbacks interface (the activity, if the
-                // fragment is attached to one) that an item has been selected.
-                mListener.onListFragmentInteraction(holder.mItem);
+            if (mListener != null) {
+                mListener.onListItemClickListener(holder.mItem);
             }
         });
     }
