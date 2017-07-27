@@ -3,7 +3,6 @@ package com.mooncascade.weathertestapp.activities;
 import android.os.Bundle;
 
 import com.mooncascade.weathertestapp.R;
-import com.mooncascade.weathertestapp.data.model.CityTempBaseModel;
 import com.mooncascade.weathertestapp.fragments.ForecastFragment;
 
 /**

@@ -4,21 +4,13 @@ package com.mooncascade.weathertestapp.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.mooncascade.weathertestapp.R;
-import com.mooncascade.weathertestapp.adapters.ForecastRecyclerViewAdapter;
 import com.mooncascade.weathertestapp.data.model.BaseModel;
 import com.mooncascade.weathertestapp.data.model.CityForecastBaseModel;
 import com.mooncascade.weathertestapp.data.model.CityModel;
-import com.mooncascade.weathertestapp.data.model.CityTempBaseModel;
 import com.mooncascade.weathertestapp.rest.RestClient;
 import com.mooncascade.weathertestapp.views.ForecastView;
 import com.mooncascade.weathertestapp.views.ForecastViewImpl;
@@ -32,8 +24,13 @@ import java.util.ArrayList;
 public class ForecastFragment extends BaseFragment {
 
     public static final String LIST_ITEM = "listItem";
+    public static final String LAT = "lat";
+    public static final String LNG = "lng";
 
     private Long cityId;
+
+    private double lat;
+    private double lng;
 
     private ForecastView mViewMVC;
     ArrayList<CityForecastBaseModel> data;
@@ -46,12 +43,23 @@ public class ForecastFragment extends BaseFragment {
         return fragment;
     }
 
+    public static ForecastFragment newInstance(double lat, double lng) {
+        ForecastFragment fragment = new ForecastFragment();
+        Bundle args = new Bundle();
+        args.putDouble(LAT, lat);
+        args.putDouble(LNG, lng);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
         if (getArguments() != null) {
             cityId = getArguments().getLong(LIST_ITEM);
+            lat = getArguments().getDouble(LAT);
+            lng = getArguments().getDouble(LNG);
         }
     }
 
@@ -67,15 +75,23 @@ public class ForecastFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if (savedInstanceState == null)
-            dispatchCall(cityId);
-        else
+        if (savedInstanceState == null) {
+            if (cityId != 0)
+                dispatchCall(cityId);
+            else
+                dispatchCall(lat, lng);
+        } else
             mViewMVC.updateList(data);
     }
 
     void dispatchCall(Long id) {
         mViewMVC.showProgress(true);
         RestClient.getInstance(context).getCityForecast(id);
+    }
+
+    void dispatchCall(double lat, double lng) {
+        mViewMVC.showProgress(true);
+        RestClient.getInstance(context).getCityForecastByCoordinates(lat, lng);
     }
 
     @Subscribe

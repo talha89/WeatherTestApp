@@ -1,0 +1,73 @@
+{
+    "cod": 200,
+    "calctime": 0.003810483,
+    "cnt": 2,
+    "list": [
+        {
+            "id": 588409,
+            "dt": 1501142483,
+            "name": "Tallinn",
+            "coord": {
+                "Lat": 59.436958,
+                "Lon": 24.753531
+            },
+            "main": {
+                "temp": 21,
+                "temp_min": 21,
+                "temp_max": 21,
+                "pressure": 1004,
+                "humidity": 64
+            },
+            "wind": {
+                "speed": 4.1,
+                "deg": 50
+            },
+            "rain": null,
+            "snow": null,
+            "clouds": {
+                "today": 20
+            },
+            "weather": [
+                {
+                    "id": 801,
+                    "main": "Clouds",
+                    "description": "few clouds",
+                    "icon": "02d"
+                }
+            ]
+        },
+        {
+            "id": 588335,
+            "dt": 1501142556,
+            "name": "Tartu",
+            "coord": {
+                "Lat": 58.380619,
+                "Lon": 26.72509
+            },
+            "main": {
+                "temp": 18,
+                "temp_min": 18,
+                "temp_max": 18,
+                "pressure": 1004,
+                "humidity": 82
+            },
+            "wind": {
+                "speed": 4.1,
+                "deg": 80
+            },
+            "rain": null,
+            "snow": null,
+            "clouds": {
+                "today": 75
+            },
+            "weather": [
+                {
+                    "id": 803,
+                    "main": "Clouds",
+                    "description": "broken clouds",
+                    "icon": "04d"
+                }
+            ]
+        }
+            ]
+}

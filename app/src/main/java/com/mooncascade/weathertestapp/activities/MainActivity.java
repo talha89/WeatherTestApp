@@ -1,12 +1,9 @@
 package com.mooncascade.weathertestapp.activities;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.mooncascade.weathertestapp.R;
 import com.mooncascade.weathertestapp.data.model.CityTempBaseModel;
@@ -42,6 +39,7 @@ public class MainActivity extends BaseActivity implements MainFragment.OnListFra
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
         return true;
@@ -52,6 +50,9 @@ public class MainActivity extends BaseActivity implements MainFragment.OnListFra
         switch (item.getItemId()) {
             case R.id.settings:
                 launchActivity(SettingsActivity.class);
+                return true;
+            case R.id.location:
+                launchActivity(MyLocationActivity.class);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

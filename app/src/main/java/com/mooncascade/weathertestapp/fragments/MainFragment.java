@@ -3,19 +3,12 @@ package com.mooncascade.weathertestapp.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 
-import com.mooncascade.weathertestapp.R;
 import com.mooncascade.weathertestapp.common.Utility;
-import com.mooncascade.weathertestapp.adapters.CitiesWeatherRecyclerViewAdapter;
-import com.mooncascade.weathertestapp.common.ClearableAutoCompleteTextView;
 import com.mooncascade.weathertestapp.data.model.BaseModel;
 import com.mooncascade.weathertestapp.data.model.CityTempBaseModel;
 import com.mooncascade.weathertestapp.rest.RestClient;
@@ -24,8 +17,6 @@ import com.mooncascade.weathertestapp.views.MainViewImpl;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.Set;
 
 public class MainFragment extends BaseFragment implements MainView.MainViewInteractionListener {
 

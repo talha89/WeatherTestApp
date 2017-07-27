@@ -10,6 +10,7 @@ import android.util.Log;
 import com.mooncascade.weathertestapp.R;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -67,6 +68,23 @@ public class Utility {
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(cxt);
         return sharedPref.getBoolean(cxt.getString(R.string.setting_key1), false);
+    }
+
+    public static String readTextFile(InputStream inputStream) {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+        byte buf[] = new byte[1024];
+        int len;
+        try {
+            while ((len = inputStream.read(buf)) != -1) {
+                outputStream.write(buf, 0, len);
+            }
+            outputStream.close();
+            inputStream.close();
+        } catch (IOException e) {
+
+        }
+        return outputStream.toString();
     }
 
 }

@@ -21,4 +21,8 @@ public interface ApiService {
     @GET("forecast")
     Call<BaseJsonModel<List<CityForecastBaseModel>>> getCityForecast(@Query("id") long id, @Query("units") String units );
 
+    @GET("forecast")
+    Call<BaseJsonModel<List<CityForecastBaseModel>>> getCityForecastByCoordinates(@Query("lat") double lat, @Query("lon") double lng, @Query("units") String units );
+
+
 }

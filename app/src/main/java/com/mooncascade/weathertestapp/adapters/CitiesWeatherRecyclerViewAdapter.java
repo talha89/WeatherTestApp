@@ -7,12 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.mooncascade.weathertestapp.R;
 import com.mooncascade.weathertestapp.common.Utility;
 import com.mooncascade.weathertestapp.common.Words;
 import com.mooncascade.weathertestapp.data.model.CityTempBaseModel;
 import com.mooncascade.weathertestapp.data.model.WeatherModel;
-import com.mooncascade.weathertestapp.fragments.MainFragment.OnListFragmentInteractionListener;
 import com.mooncascade.weathertestapp.views.MainView;
 import com.squareup.picasso.Picasso;
 

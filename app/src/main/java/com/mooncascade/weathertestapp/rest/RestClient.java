@@ -29,7 +29,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class RestClient {
 
-    private static final String BASE_URL = "http://api.openweathermap.org/data/2.5/";
+    public static String BASE_URL = "http://api.openweathermap.org/data/2.5/";
     private static RestClient ourInstance = new RestClient();
     private static ApiService apiService;
     private static String appId = "7131489711d7591432be8f2172cf6ca3";
@@ -108,31 +108,39 @@ public class RestClient {
         });
     }
 
+    private Callback<BaseJsonModel<List<CityForecastBaseModel>>> forecastCallback = new Callback<BaseJsonModel<List<CityForecastBaseModel>>>() {
+        @Override
+        public void onResponse(Call<BaseJsonModel<List<CityForecastBaseModel>>> call, Response<BaseJsonModel<List<CityForecastBaseModel>>> response) {
+            if (response.isSuccessful()) {
+                BusProvider.getInstance().post(response.body().getData());
+                BusProvider.getInstance().post(response.body().getCity());
+            } else {
+                try {
+                    dispatchFailureMessage(response.errorBody().string());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        @Override
+        public void onFailure(Call<BaseJsonModel<List<CityForecastBaseModel>>> call, Throwable t) {
+            dispatchFailureMessage("Unexpected error...");
+        }
+    };
+
     public void getCityForecast(long cityId) {
 
         Call<BaseJsonModel<List<CityForecastBaseModel>>> call = getApiService().getCityForecast(cityId, "metric");
 
-        call.enqueue(new Callback<BaseJsonModel<List<CityForecastBaseModel>>>() {
-            @Override
-            public void onResponse(Call<BaseJsonModel<List<CityForecastBaseModel>>> call, Response<BaseJsonModel<List<CityForecastBaseModel>>> response) {
-                if (response.isSuccessful()) {
-                    BusProvider.getInstance().post(response.body().getData());
-                    BusProvider.getInstance().post(response.body().getCity());
-                } else {
-                    try {
-                        dispatchFailureMessage(response.errorBody().string());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
+        call.enqueue(forecastCallback);
+    }
 
-            @Override
-            public void onFailure(Call<BaseJsonModel<List<CityForecastBaseModel>>> call, Throwable t) {
-                dispatchFailureMessage("Unexpected error...");
-            }
-        });
+    public void getCityForecastByCoordinates(double lat, double lng) {
 
+        Call<BaseJsonModel<List<CityForecastBaseModel>>> call = getApiService().getCityForecastByCoordinates(lat, lng, "metric");
+
+        call.enqueue(forecastCallback);
     }
 
     private void dispatchFailureMessage(String string) {
