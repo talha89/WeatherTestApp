@@ -8,7 +8,7 @@
 
     <string name="weather_speed">%.1f m/s</string>
     <string name="weather_temp">%.1f \u00B0C</string>
-    <string name="weather_temp_as_text">%s degrees</string>
+    <string name="weather_temp_as_text">%sdegrees</string>
     <string name="forecast_temp_as_text">%s\ndegrees</string>
     <string name="settings">Settings</string>
     <string name="my_location">My Location</string>

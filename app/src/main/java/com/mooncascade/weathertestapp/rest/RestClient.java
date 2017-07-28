@@ -2,6 +2,7 @@ package com.mooncascade.weathertestapp.rest;
 
 import android.content.Context;
 
+import com.mooncascade.weathertestapp.BuildConfig;
 import com.mooncascade.weathertestapp.bus.BusProvider;
 import com.mooncascade.weathertestapp.data.model.BaseJsonModel;
 import com.mooncascade.weathertestapp.data.model.BaseModel;
@@ -43,11 +44,11 @@ public class RestClient {
 
             OkHttpClient.Builder builder = new OkHttpClient.Builder();
 
-            //  if (BuildConfig.DEBUG) {
-            HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-            builder.addInterceptor(interceptor);
-            //   }
+            if (BuildConfig.DEBUG) {
+                HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+                interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+                builder.addInterceptor(interceptor);
+            }
 
             // This can be problematic in case of server redirects
             builder.addInterceptor(chain -> {

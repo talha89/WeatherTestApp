@@ -34,6 +34,7 @@ public class ForecastFragment extends BaseFragment {
 
     private ForecastView mViewMVC;
     ArrayList<CityForecastBaseModel> data;
+    CityModel city;
 
     public static ForecastFragment newInstance(Long id) {
         ForecastFragment fragment = new ForecastFragment();
@@ -80,8 +81,11 @@ public class ForecastFragment extends BaseFragment {
                 dispatchCall(cityId);
             else
                 dispatchCall(lat, lng);
-        } else
+        } else{
             mViewMVC.updateList(data);
+            getActivity().setTitle(city.getName());
+        }
+
     }
 
     void dispatchCall(Long id) {
@@ -103,6 +107,7 @@ public class ForecastFragment extends BaseFragment {
 
     @Subscribe
     public void onCityInfoReceived(CityModel city) {
+        this.city = city;
         if (getActivity() != null) {
             getActivity().setTitle(city.getName());
         }

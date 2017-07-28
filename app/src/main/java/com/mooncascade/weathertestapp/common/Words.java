@@ -7,38 +7,38 @@ public class Words {
 
     private static final String[] tensNames = {
             "",
-            " Ten",
-            " Twenty",
-            " Thirty",
-            " Forty",
-            " Fifty",
-            " Sixty",
-            " Seventy",
-            " Eighty",
-            " Ninety"
+            "Ten ",
+            "Twenty ",
+            "Thirty ",
+            "Forty ",
+            "Fifty ",
+            "Sixty ",
+            "Seventy ",
+            "Eighty ",
+            "Ninety "
     };
 
     private static final String[] numNames = {
             "",
-            " One",
-            " Two",
-            " Three",
-            " Four",
-            " Five",
-            " Six",
-            " Seven",
-            " Eight",
-            " Nine",
-            " Ten",
-            " Eleven",
-            " Twelve",
-            " Thirteen",
-            " Fourteen",
-            " Fifteen",
-            " Sixteen",
-            " Seventeen",
-            " Eighteen",
-            " Nineteen"
+            "One ",
+            "Two ",
+            "Three ",
+            "Four ",
+            "Five ",
+            "Six ",
+            "Seven ",
+            "Eight ",
+            "Nine ",
+            "Ten ",
+            "Eleven ",
+            "Twelve ",
+            "Thirteen ",
+            "Fourteen ",
+            "Fifteen ",
+            "Sixteen ",
+            "Seventeen ",
+            "Eighteen ",
+            "Nineteen "
     };
 
     private Words() {
