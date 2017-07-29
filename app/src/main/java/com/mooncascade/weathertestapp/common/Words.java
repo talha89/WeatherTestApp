@@ -47,19 +47,32 @@ public class Words {
     // Assuming for our case that number is always less than 1000, otherwise we are doomed anyway!
     public static String EnglishNumberToWords(int number) {
         String soFar;
+        String numberString;
 
-        if (number % 100 < 20) {
-            soFar = numNames[number % 100];
-            number /= 100;
+        int positiveNumber = Math.abs(number);
+
+        if (positiveNumber == 0)
+            return "Zero";
+        else if (positiveNumber % 100 < 20) {
+            soFar = numNames[positiveNumber % 100];
+            positiveNumber /= 100;
         } else {
-            soFar = numNames[number % 10];
-            number /= 10;
+            soFar = numNames[positiveNumber % 10];
+            positiveNumber /= 10;
 
-            soFar = tensNames[number % 10] + soFar;
-            number /= 10;
+            soFar = tensNames[positiveNumber % 10] + soFar;
+            positiveNumber /= 10;
         }
-        if (number == 0) return soFar;
-        return numNames[number] + " hundred" + soFar;
+
+        if (positiveNumber == 0)
+            numberString =  soFar;
+        else
+            numberString = numNames[positiveNumber] + "hundred " + soFar;
+
+        if(number < 0)
+            numberString = "Minus " + numberString;
+
+        return numberString;
     }
 
 }
