@@ -4,7 +4,7 @@ Mainly I selected the tasks that i think have a good impact on user experience.
 
 
 2) Weather forecast for the city the user is located in.
-Why : User will most probably be interested in the forecast of his own city so it makes sense to provide this functionality.
+Why : User will most definitely be interested in the forecast of his own city so it makes sense to provide this functionality.
 
 
 3) Cache latest weather info and display it when user opens app with no internet
@@ -17,4 +17,7 @@ Why: Haven't done it before so wanted to try it out.
 
 
 6) Show icons for different weathers (Cloud icon for cloudy weather, etc..)
-Why : Images enhance the UX as compared to just text.  
+Why : Images enhance the UX as compared to just plain text.  
+
+
+NOTE: Tapping the 'select country' dropdown shows cities outside of the country selected as well. This is due to the usage of bounding box in the API, couldn't find any method in API that could give weather of cities given a certain country. Kept it there as a possible app functionality. 
